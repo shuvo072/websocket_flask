@@ -1,0 +1,38 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Server</title>
+</head>
+<body>
+  <h1>WebSocket Server 2</h1>
+  <input type="text" id="messageInput" />
+  <button onclick="sendMessage()">Send</button>
+  <div id="output"></div>
+
+  <script>
+    const messageInput = document.getElementById('messageInput');
+    const outputDiv = document.getElementById('output');
+    const socket = new WebSocket('ws://' + window.location.host + '/websocket'); // Ensure the WebSocket URL is correct
+
+    socket.onopen = () => {
+      console.log('WebSocket connection established');
+    };
+
+    socket.onmessage = (event) => {
+      console.log('Received from server:', event.data);
+      outputDiv.innerHTML = 'Received from server: ' + event.data;
+    };
+
+    socket.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    function sendMessage() {
+      const message = messageInput.value;
+      socket.send(message);
+      // messageInput.value = '';
+    }
+  </script>
+</body>
+</html>
